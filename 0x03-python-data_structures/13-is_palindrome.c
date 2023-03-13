@@ -1,74 +1,72 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "lists.h"
 
+listint_t *reverse_listint(listint_t **head);
+int is_palindrome(listint_t **head);
+
 /**
- * print_listint - prints all elements of a listint_t list
- * @h: pointer to head of list
- * Return: number of nodes
+ * reverse_listint - Reverses a singly-linked listint_t list.
+ * @head: A pointer to the starting node of the list to reverse.
+ *
+ * Return: A pointer to the head of the reversed list.
  */
-size_t print_listint(const listint_t *h)
+listint_t *reverse_listint(listint_t **head)
 {
-    const listint_t *current;
-    unsigned int n; /* number of nodes */
+	listint_t *node = *head, *next, *prev = NULL;
 
-    current = h;
-    n = 0;
-    while (current != NULL)
-    {
-	printf("%i\n", current->n);
-	current = current->next;
-	n++;
-    }
+	while (node)
+	{
+		next = node->next;
+		node->next = prev;
+		prev = node;
+		node = next;
+	}
 
-    return (n);
+	*head = prev;
+	return (*head);
 }
 
 /**
- * add_nodeint_end - adds a new node at the end of a listint_t list
- * @head: pointer to pointer of first node of listint_t list
- * @n: integer to be included in new node
- * Return: address of the new element or NULL if it fails
+ * is_palindrome - Checks if a singly linked list is a palindrome.
+ * @head: A pointer to the head of the linked list.
+ *
+ * Return: If the linked list is not a palindrome - 0.
+ *         If the linked list is a palindrome - 1.
  */
-listint_t *add_nodeint_end(listint_t **head, const int n)
+int is_palindrome(listint_t **head)
 {
-    listint_t *new;
-    listint_t *current;
+	listint_t *tmp, *rev, *mid;
+	size_t size = 0, i;
 
-    current = *head;
+	if (*head == NULL || (*head)->next == NULL)
+		return (1);
 
-    new = malloc(sizeof(listint_t));
-    if (new == NULL)
-	return (NULL);
+	tmp = *head;
+	while (tmp)
+	{
+		size++;
+		tmp = tmp->next;
+	}
 
-    new->n = n;
-    new->next = NULL;
+	tmp = *head;
+	for (i = 0; i < (size / 2) - 1; i++)
+		tmp = tmp->next;
 
-    if (*head == NULL)
-	*head = new;
-    else
-    {
-	while (current->next != NULL)
-	    current = current->next;
-	current->next = new;
-    }
+	if ((size % 2) == 0 && tmp->n != tmp->next->n)
+		return (0);
 
-    return (new);
-}
+	tmp = tmp->next->next;
+	rev = reverse_listint(&tmp);
+	mid = rev;
 
-/**
- * free_listint - frees a listint_t list
- * @head: pointer to list to be freed
- * Return: void
- */
-void free_listint(listint_t *head)
-{
-    listint_t *current;
+	tmp = *head;
+	while (rev)
+	{
+		if (tmp->n != rev->n)
+			return (0);
+		tmp = tmp->next;
+		rev = rev->next;
+	}
+	reverse_listint(&mid);
 
-    while (head != NULL)
-    {
-	current = head;
-	head = head->next;
-	free(current);
-    }
+	return (1);
 }
