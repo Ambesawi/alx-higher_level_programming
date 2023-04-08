@@ -1,4 +1,4 @@
 #!/usr/bin/python3
 def copy_list(l):
-    """  :param l: the list to be copied  """
-    return l.copy()
+    input_list = l
+    return input_list.copy()
