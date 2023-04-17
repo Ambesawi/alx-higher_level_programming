@@ -50,7 +50,7 @@ class Base:
     @staticmethod
     def from_json_string(json_string):
         """
-        from json to string-- static method 
+        from json to string-- static method
         """
         if json_string is None:
             return []
@@ -70,7 +70,7 @@ class Base:
     @classmethod
     def load_from_file(cls):
         """
-        class to create a rectangle object-- class method 
+        class to create a rectangle object-- class method
         """
         new_list = []
         filename = "{}.json".format(cls.__name__)
