@@ -1,0 +1,1 @@
+this is alx project fo 0x13-javascript object _scopes_closures
