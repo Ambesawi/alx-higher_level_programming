@@ -1,17 +1,26 @@
 #!/usr/bin/python3
-""" This module returns the peak of the list
-"""
+""" Finds a peak inside a list """
 
 
 def find_peak(list_of_integers):
-    """ This function returns the peak of the list
-    """
-    if (len(list_of_integers) == 0):
+    if list_of_integers == []:
         return None
 
-    else:
-        peak = list_of_integers[0]
-        for i in range(len(list_of_integers)):
-            if list_of_integers[i] > peak:
-                peak = list_of_integers[i]
-        return
+    length = len(list_of_integers)
+    mid = int(length / 2)
+    li = list_of_integers
+
+    if mid - 1 < 0 and mid + 1 >= length:
+        return li[mid]
+    elif mid - 1 < 0:
+        return li[mid] if li[mid] > li[mid + 1] else li[mid + 1]
+    elif mid + 1 >= length:
+        return li[mid] if li[mid] > li[mid - 1] else li[mid - 1]
+
+    if li[mid - 1] < li[mid] > li[mid + 1]:
+        return li[mid]
+
+    if li[mid + 1] > li[mid - 1]:
+        return find_peak(li[mid:])
+    return find_peak(li[:mid])
+
